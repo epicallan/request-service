@@ -2,11 +2,6 @@ package cash;
 
 import java.util.Date;
 import java.util.List;
-
-import org.easymock.EasyMock;
-
-import static org.easymock.EasyMock.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

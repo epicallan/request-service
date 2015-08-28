@@ -21,9 +21,9 @@ public class RequestsService {
 		
 		put("/user/requests/edit", new UpdateUserRequest(model)); 
 		
-		get("/user/requests/:userId",new GetUserRequests(model)); 
+		get("/user/requests/:user_id",new GetUserRequests(model)); 
 		
-		get("/admin/requests/:userId",new GetAdminRequests(model)); 
+		get("/admin/requests/:user_id",new GetAdminRequests(model)); 
 	}
 
 }

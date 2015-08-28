@@ -1,7 +1,5 @@
 package com.petty_requests.handlers;
 
-import java.util.HashMap;
-
 import spark.Request;
 
 import com.petty_requests.models.Model;
@@ -12,7 +10,6 @@ public class GetAdminRequests extends AbstractRequestHandler {
 		super(model);
 		
 	}
-
 
 	@Override
 	protected String processRequest(Request request) {

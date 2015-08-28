@@ -1,7 +1,5 @@
 package com.petty_requests.handlers;
 
-import java.util.HashMap;
-
 import spark.Request;
 
 import com.petty_requests.models.Model;
@@ -12,12 +10,11 @@ public class GetUserRequests extends AbstractRequestHandler {
 		super(model);
 	}
 
-
 	@Override
 	protected String processRequest(Request request) {
 		String userId = request.params("user_id");
 		result = model.getAllUserRequests(userId);
-		return dataToJson(request);
+		return dataToJson(result);
 	}
 	
 }
