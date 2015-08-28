@@ -1,8 +1,8 @@
-# README #
-Petty cash Project
-### Java back end Repository for Petty cash ###
+# Petty cash #
 
-* The app is built around spark that is only used for setting up API end points
+### Request Service API  ###
+
+* The service is built around spark which is used for setting up API end points
 
 * Version 0.0.1
 
@@ -16,10 +16,9 @@ Petty cash Project
 
 ### Contribution guidelines ###
 
-* Pull requests are very mmuch encouraged
+* Pull requests are very much encouraged
 * Writing tests: The tests are written using JUNIT with hamcrest for assertion
-* Code review:
-* Other guidelines
+* Other guidelines:
 
 ### Change log and Issues ###
 
