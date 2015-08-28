@@ -9,7 +9,7 @@ public @Data class NewUserRequestPayload {
 	private float requestAmount;
 
 	public boolean isValid() {
-		return !userId.isEmpty() && !(requestAmount > -1);
+		return userId != null ;
 	}
 
 

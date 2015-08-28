@@ -9,6 +9,7 @@ import org.sql2o.Sql2o;
 import org.sql2o.Connection;
 
 import com.petty_requests.handlers.NewUserRequestPayload;
+import com.petty_requests.handlers.ProcessRequestPayload;
 import com.petty_requests.main.RandomUUID;
 import com.petty_requests.models.ProcessedRequest;
 import com.petty_requests.models.Model;
@@ -53,22 +54,21 @@ public class SqlModel implements Model {
 	}
 
 	@Override
-	public ProcessedRequest editRequest(String requestId, String adminId) {
+	public ProcessedRequest editRequest(ProcessRequestPayload payload) {
 		String edit_sql = "UPDATE request SET status = :status,"
 				+ "approval_count = approval_count + 1 WHERE request_id = :request_id ";
 		ProcessedRequest processedRequest = null;
 
-		if (!existsAdminActionOnRequest(requestId, adminId)) {
+		if (!existsAdminActionOnRequest(payload.getRequestId(),payload.getAdminId())) {
 			try (Connection con = sql2o.beginTransaction()) {
-				con.createQuery(edit_sql).addParameter("request_id", "1")
-						.addParameter("status", 1).executeUpdate();
+				con.createQuery(edit_sql).addParameter("request_id",payload.getRequestId())
+						.addParameter("status",payload.getStatus()).executeUpdate();
 
-				processedRequest = processRequest(requestId, con);
+				processedRequest = processRequest(payload.getRequestId(), con);
 
-				createAdminRequestTrail(processedRequest.getUserId(), requestId,
-						adminId, con);
+				createAdminRequestTrail(processedRequest.getUserId(),payload.getRequestId(),
+						payload.getAdminId(), con);
 				con.commit();
-
 			}
 		}
 
@@ -92,11 +92,10 @@ public class SqlModel implements Model {
 
 	public boolean createUserRequest(NewUserRequestPayload payload) {
 		boolean isCreated = false;
-		// TODO put sql in a config file
 		String sql = "INSERT INTO request (user_id,request_id,mod_date,request_amount,"
-				+ "approval_count,status,reason,organisation_id)"
+				+ "approval_count,status,reason,organization_id)"
 				+ "VALUES (:user_id,:request_id,:mod_date,"
-				+ ":request_amount,:approval_count,:status,:reason,:organisation_id)";
+				+ ":request_amount,:approval_count,:status,:reason,:organization_id)";
 		try (Connection con = sql2o.open()) {
 			con.createQuery(sql)
 					.addParameter("user_id", payload.getUserId())

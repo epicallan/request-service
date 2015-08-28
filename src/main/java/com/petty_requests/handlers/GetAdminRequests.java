@@ -15,6 +15,6 @@ public class GetAdminRequests extends AbstractRequestHandler {
 	protected String processRequest(Request request) {
 		String adminId = request.params("user_id");
 		result = model.getAdminUserRequests(adminId);
-		return dataToJson(request);
+		return dataToJson(result);
 	}
 }

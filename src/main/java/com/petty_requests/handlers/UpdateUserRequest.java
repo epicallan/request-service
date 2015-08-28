@@ -5,7 +5,7 @@ import spark.Request;
 import com.petty_requests.models.Model;
 import com.petty_requests.models.ProcessedRequest;
 
-public class UpdateUserRequest extends AbstractRequestHandler {
+public class UpdateUserRequest extends AbstractRequestHandler<ProcessRequestPayload> {
 
 	public UpdateUserRequest(Model model) {
 		super(model);
@@ -13,9 +13,11 @@ public class UpdateUserRequest extends AbstractRequestHandler {
 
 	@Override
 	protected String processRequest(Request request) {
-		String requestId = request.params("request_id");
-		String adminId = request.params("admin_id");
-		ProcessedRequest processedRequest = model.editRequest(requestId, adminId);
+		ProcessRequestPayload payload = processPayload(request);
+		ProcessedRequest processedRequest = null;
+		if(payload.isValid()){
+			processedRequest = model.editRequest(payload);
+		}
 		return dataToJson(processedRequest);
 	}
 

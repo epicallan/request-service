@@ -5,6 +5,7 @@ import java.util.List;
 import org.sql2o.Connection;
 
 import com.petty_requests.handlers.NewUserRequestPayload;
+import com.petty_requests.handlers.ProcessRequestPayload;
 
 public interface Model {
 
@@ -12,7 +13,7 @@ public interface Model {
 	
 	List<UserRequest> getAllUserRequests(String userId);
 	
-	ProcessedRequest editRequest(String requestId,String adminId);
+	ProcessedRequest editRequest(ProcessRequestPayload payload);
 	
 	List<UserRequest> getAdminUserRequests(String admin);
 }
