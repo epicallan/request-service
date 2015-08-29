@@ -2,7 +2,7 @@ package com.petty_requests.handlers;
 import spark.Request;
 import com.petty_requests.models.Model;
 
-public class CreateUserRequest extends AbstractRequestHandler <NewUserRequestPayload> {
+public class CreateUserRequest extends AbstractRequestHandler<NewUserRequestPayload>{
 	
 	public CreateUserRequest(Model model) {
 		super(model);
@@ -10,8 +10,8 @@ public class CreateUserRequest extends AbstractRequestHandler <NewUserRequestPay
 	}
 	
 	protected String processRequest(Request request) {
-		NewUserRequestPayload payload =processPayload(request);
-		if (processPayload(request).isValid()) {
+		NewUserRequestPayload payload = processPayload(request,NewUserRequestPayload.class);
+		if (payload.isValid()) {
 			result = model.createUserRequest(payload);
 		}
 		return dataToJson(result);

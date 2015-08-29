@@ -1,9 +1,6 @@
 package com.petty_requests.models;
 
 import java.util.List;
-
-import org.sql2o.Connection;
-
 import com.petty_requests.handlers.NewUserRequestPayload;
 import com.petty_requests.handlers.ProcessRequestPayload;
 

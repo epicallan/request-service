@@ -8,9 +8,11 @@ import java.util.Map;
 import org.sql2o.Sql2o;
 import org.sql2o.Connection;
 
+import java.util.logging.*;
+
 import com.petty_requests.handlers.NewUserRequestPayload;
 import com.petty_requests.handlers.ProcessRequestPayload;
-import com.petty_requests.main.RandomUUID;
+import com.petty_requests.RandomUUID;
 import com.petty_requests.models.ProcessedRequest;
 import com.petty_requests.models.Model;
 import com.petty_requests.models.UserRequest;
@@ -18,7 +20,8 @@ import com.petty_requests.models.UserRequest;
 public class SqlModel implements Model {
 
 	private Sql2o sql2o;
-
+	private static final Logger logger = Logger.getLogger(SqlModel.class
+			.getName());
 	List<UserRequest> userRequests = null;
 
 	public SqlModel() {
@@ -55,26 +58,41 @@ public class SqlModel implements Model {
 
 	@Override
 	public ProcessedRequest editRequest(ProcessRequestPayload payload) {
+
 		String edit_sql = "UPDATE request SET status = :status,"
 				+ "approval_count = approval_count + 1 WHERE request_id = :request_id ";
 		ProcessedRequest processedRequest = null;
 
-		if (!existsAdminActionOnRequest(payload.getRequestId(),payload.getAdminId())) {
+		if (!existsAdminActionOnRequest(payload.getRequestId(),
+				payload.getAdminId())) {
+
 			try (Connection con = sql2o.beginTransaction()) {
-				con.createQuery(edit_sql).addParameter("request_id",payload.getRequestId())
-						.addParameter("status",payload.getStatus()).executeUpdate();
+
+				con.createQuery(edit_sql)
+						.addParameter("request_id", payload.getRequestId())
+						.addParameter("status", payload.getStatus())
+						.executeUpdate();
 
 				processedRequest = processRequest(payload.getRequestId(), con);
 
-				createAdminRequestTrail(processedRequest.getUserId(),payload.getRequestId(),
-						payload.getAdminId(), con);
+				createAdminRequestTrail(processedRequest.getUserId(),
+						payload.getRequestId(), payload.getAdminId(), con);
 				con.commit();
+				logger.log(Level.INFO,"Edit request transaction completed");
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 
 		return processedRequest;
 	}
-
+	
+	public void deleteRecord(String sql){
+		try(Connection con = sql2o.open()){
+			con.createQuery(sql).executeUpdate();
+		}
+	}
+	
 	private ProcessedRequest processRequest(String requestId, Connection con) {
 		ProcessedRequest request = null;
 		String sql = "SELECT request.*,organizations.approval_count AS max_approvals "
@@ -143,16 +161,18 @@ public class SqlModel implements Model {
 		boolean exists = true;
 
 		String sql = "SELECT COUNT(*) FROM admin_req_fk WHERE "
-				+ "admin_req_fk.request_id =:requestId AND "
+				+ "admin_req_fk.request_id =:request_id AND "
 				+ "admin_req_fk.admin_id = :admin_id";
 		try (Connection con = sql2o.open()) {
 			Integer count = con.createQuery(sql)
 					.addParameter("admin_id", adminId)
 					.addParameter("request_id", requestId)
-					.addParameter("admin_id", adminId)
 					.executeAndFetchFirst(Integer.class);
-			if (count == null) {
+			if (count == 0) {
 				exists = false;
+				logger.log(Level.INFO, "Action on request doesn't exists");
+			} else {
+				logger.log(Level.INFO, "Action on request exists: " + count);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

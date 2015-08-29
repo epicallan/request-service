@@ -1,4 +1,4 @@
-package com.petty_requests.main;
+package com.petty_requests;
 
 public class Main {
 

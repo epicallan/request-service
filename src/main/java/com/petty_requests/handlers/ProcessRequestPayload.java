@@ -1,6 +1,6 @@
 package com.petty_requests.handlers;
 
-import com.petty_requests.main.Validable;
+import com.petty_requests.Validable;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ public @Data class ProcessRequestPayload implements Validable {
 	private String adminId;
 	
 	public boolean isValid() {
-		return !requestId.isEmpty() && status > -1;
+		return !adminId.isEmpty() && status > -1;
 	}
 
 }

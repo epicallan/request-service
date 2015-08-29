@@ -1,4 +1,4 @@
-package com.petty_requests.main;
+package com.petty_requests;
 
 import com.petty_requests.SqlModel.SqlModel;
 import com.petty_requests.handlers.CreateUserRequest;
@@ -19,7 +19,7 @@ public class RequestsService {
 		
 		post("/user/requests/create",new CreateUserRequest(model));
 		
-		put("/user/requests/edit", new UpdateUserRequest(model)); 
+		put("/user/requests/:request_id", new UpdateUserRequest(model)); 
 		
 		get("/user/requests/:user_id",new GetUserRequests(model)); 
 		

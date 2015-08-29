@@ -37,7 +37,9 @@ public class CreateUserRequestTest {
 		model = null;
 
 	}
-
+	public void deleteCreatedRequest(){
+		//TODO
+	}
 	@Test
 	public void processRequest() {
 		Object result = null;
@@ -45,6 +47,7 @@ public class CreateUserRequestTest {
 			result = CreateUserRequest.dataToJson(model
 					.createUserRequest(payload));
 		}
+		System.out.println(result);
 		assertThat("should create new request from payload", result,
 				notNullValue());
 	}

@@ -4,7 +4,7 @@ import spark.Request;
 
 import com.petty_requests.models.Model;
 
-public class GetAdminRequests extends AbstractRequestHandler {
+public class GetAdminRequests extends AbstractRequestHandler<EmptyPayload>{
 
 	public GetAdminRequests(Model model) {
 		super(model);

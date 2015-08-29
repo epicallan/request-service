@@ -1,25 +1,27 @@
 package com.petty_requests.handlers;
 
 import java.io.IOException;
-import java.util.HashMap;
+
+
 
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.petty_requests.Validable;
 import com.petty_requests.models.Model;
 
-public abstract class AbstractRequestHandler <V> implements Route {
+public abstract class AbstractRequestHandler <V extends Validable> implements Route {
 
 	protected Request request;
 	protected Model model;
 	Integer FAILED = 400;
 	Integer SUCCESS = 200;
 	Object result;
-	HashMap<String, Object> responseMap;
-	private Class<V> valueClass;
+	//Class<V> type;
 	
 	public AbstractRequestHandler(Model model) {
 		this.model = model;
@@ -35,13 +37,14 @@ public abstract class AbstractRequestHandler <V> implements Route {
 		return data;
 	}
 	
-	protected V processPayload(Request request) {
+	public V processPayload(Request request,Class<V> type) {
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		V payload = null;
 		try {
-			payload = objectMapper.readValue(request.body(),valueClass);
+			System.out.println(request.body());
+			payload = objectMapper.readValue(request.body(),type);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return payload;

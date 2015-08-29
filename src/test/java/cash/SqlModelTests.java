@@ -4,13 +4,12 @@ import java.util.Date;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sql2o.Connection;
 
 import com.petty_requests.SqlModel.SqlModel;
 import com.petty_requests.handlers.ProcessRequestPayload;
-import com.petty_requests.main.RandomUUID;
+import com.petty_requests.RandomUUID;
 import com.petty_requests.models.ProcessedRequest;
 import com.petty_requests.models.UserRequest;
 
@@ -33,6 +32,12 @@ public class SqlModelTests {
 
 	@After
 	public void tearDown() {
+		deleteCreatedRequest();
+		userRequests = null;
+		userRequest = null;
+		
+	}
+	public void deleteCreatedRequest(){
 		String sql = "Delete from request where request_id = :request_id ";
 		try (Connection con = sqlModel.getSql2o().open()) {
 			con.createQuery(sql).addParameter("request_id", requestId)
@@ -40,11 +45,7 @@ public class SqlModelTests {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		userRequests = null;
-		userRequest = null;
-		
 	}
-	
 	@Test
 	public void editRequest() {
 		boolean isEdited = false;

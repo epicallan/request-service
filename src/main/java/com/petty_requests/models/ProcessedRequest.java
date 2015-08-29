@@ -1,6 +1,6 @@
 package com.petty_requests.models;
 
-import com.petty_requests.main.Validable;
+import com.petty_requests.Validable;
 
 public class ProcessedRequest extends UserRequest implements Validable{
 	private int maxApprovals;
