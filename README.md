@@ -17,18 +17,25 @@
 ### Change log and Issues ###
 
 * Changed request table reason field from text to varchar
+* Create missing api endpoint view API Endpoints section
 * Added an organization_id field to request table
 * Renamed admin-req-fk table to admin_req_fk table
 
 ### Miscellenious notes ###
 
-* Spark comes with an embedded server, running the com.petty_requests.main class as a java appllication 
+* Spark comes with an embedded server, running the com.petty_requests.main class as a java appllication
 * starts the app
 * The com.petty_requests.Bootstrap class is used by external servers such as tomcat and it extends the servlet class
 * Pending: Need to turn most of the tests into integration tests
 * The repo contains an sql file with the test database records for testing purpose.
 
+### API Endpoints  ###
 
+* create user request api (POST):  /user/requests/create
+* update user requests api (PUT): /user/requests/:request_id
+* get user requests api (GET): /user/requests/:user_id
+* get requets targeted to specific organisation (GET): /organisation/requests/:organisation_id (this API endpoint doesnt currently
+ exist, just noticed the one i had before in its place was not the best.)
 
 ### Contribution guidelines ###
 
