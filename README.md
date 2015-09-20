@@ -23,8 +23,7 @@
 
 ### Miscellenious notes ###
 
-* Spark comes with an embedded server, running the com.petty_requests.main class as a java appllication
-* starts the app
+* Spark comes with an embedded server, running the com.petty_requests.main class as a java application starts the app
 * The com.petty_requests.Bootstrap class is used by external servers such as tomcat and it extends the servlet class
 * Pending: Need to turn most of the tests into integration tests
 * The repo contains an sql file with the test database records for testing purpose.
@@ -41,10 +40,9 @@
 
 * Pull requests are very much encouraged
 * Writing tests: The tests are written using JUNIT with hamcrest for assertion
-* Other guidelines:
+
 
 
 ### Who do I talk to? ###
 
 * epciallan.al@gmail.com
-* Other community or team contact
